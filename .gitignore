@@ -1,0 +1,9 @@
+# Ignore raw secrets
+/secrets/
+
+# Other files to ignore
+.DS_Store
+*.swp
+*.swo
+*.env
+.env

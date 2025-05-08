@@ -1,0 +1,25 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: SERVICE-NAME-http
+  namespace: default
+spec:
+  entryPoints:
+    - web
+  routes:
+    - match: Host(\`DOMAIN.TLD\`)
+      kind: Rule
+      services:
+        - name: SERVICE-NAME
+          port: PORT
+      middlewares:
+        - name: redirect-to-https
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: redirect-to-https
+spec:
+  redirectScheme:
+    scheme: https
+    permanent: true
