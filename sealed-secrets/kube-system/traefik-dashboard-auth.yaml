@@ -1,0 +1,16 @@
+---
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  creationTimestamp: null
+  name: traefik-dashboard-auth
+  namespace: kube-system
+spec:
+  encryptedData:
+    users: AgBnz6dkyVQZkHfGp9IpxULN02dGOfIFW0zwbtEw5bcOOySitt8QJTJWijQNDQ5TTi36sUy1YSqn6dKKYHLGjWvK+hSiycb+ACeCPopmppZpCQzOdBU/KUzLg7CsM3qaXNRReIinB5yzXrMTsPmi/1f12MzHlpLqNBSX5eBnQKMu3DzxInAwnd2ShpF8cWMKmyh4xAkcJ3a82UpIjFRgo7dOD1rSVbplaT2pTUj8BJHvdqHrHkKrwogoMue/N1oFCGELodohKOZYnB7xaHzQhhci704GWJrA5u+pxlfWAyQuRjsNsHnEBrAuxtAkUvMRhdQ1JT2QeD2mwSlUCvA0v/d3SVPT6nZfULrOQXxA5tzAfbmzU5FIU6WRkesj/lQx/tGmrqSGeQuwPQCIlnQMHoVXy8UB3grOHaERRswBMkmxvjEELBqLBAeROPhH3i/bY2EjdxgqGejYVn+tx8U9uCZM2YpJF36LBKdscs72TQsB6wmXyXuYbKGad+comZRofDfRhfQcZRM0+GtVsRvYeFSfBzT6Gy24kWUeIURnXl7j+vrXqch86VcTkczIfquoHyGMVB8vUbiy7nZNPUscz0S0r7vFVF4P2UAlF68egvbvA7QbRni0lF6MycdTbzad1x0vfY5h2WInKzGin3EZzRHSzuu0Y8BiH3Dl4px0FiRM+1Bw6N9mz/INZJgtuT7PJQoxzZqlzqR0FXmf5AVPUYKHZKTrVl9xr1DYkQJrsTx+guXALTJCoL5bNqk/Cw==
+  template:
+    metadata:
+      creationTimestamp: null
+      name: traefik-dashboard-auth
+      namespace: kube-system
+    type: Opaque
