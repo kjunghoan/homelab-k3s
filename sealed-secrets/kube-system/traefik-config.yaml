@@ -1,0 +1,16 @@
+---
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  creationTimestamp: null
+  name: traefik-config
+  namespace: kube-system
+spec:
+  encryptedData:
+    loadBalancerIP: AgCIzbaSQXb59W5aiSV3KPQPXVRyf6r3awLUKBfF3Jn9TZKJAQZ3YyqhUqklxgCOwp0NzNOCfhoDp4SmO5ijmRrqWe6ndc+tflyFqF2FebkRkoSZbjqTK5EdfmeVXwu2urnYjab4U33iioI56ny29Gie+a7rpstFbhSNYl2FYyhqczokTzXdvf+N0OabhZTsl/aB4Fk4yNtepFqJzP2MOpgRdHlqN1NZBSTB4EbOVnOlL7q56suOEVcX/rUioD0qTGpMYKPoFA98jZr5/WUf6CSu6XHR+7JLZB5DIED8NIFP4O5Jo0AIj08Vm1LcBJcdfwxFOtLjivEKK5A1Qr+IbRr/Di82RY3AfLIKSMGVKCttvx3JiIP9LjO0pScLEjwipPO/RYVGWokb8G5xklG0UasRToYuP/cKy+/CL8WDSRGvpFnY3Z/WCYDmnZW9+TodTYKuAx928tnFT7yWaJVxcirLWtrXYkFpUCrHPkTGOJibOzlIV7Hmawf6EgfP3N5KIkak/09e4v7KBfMwcXMa13E4+BLyDl/HNEByLZfVFEIXev++le7Qw9ZC49deYlz/ka4GceUb0/wgoOoWggMi2yuytH1eIxVjFeWeyP5yE7fJTIQu+/dIM9KTQJSh5WNiN4gRjTnN/MGCgLY4iCiqxaRljmLnKK9K0K7RkypIALd4Fw+pR82i5luj8SzkBE8x4PJjwspf4rE6M3OQYKo6
+  template:
+    metadata:
+      creationTimestamp: null
+      name: traefik-config
+      namespace: kube-system
+    type: Opaque

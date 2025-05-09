@@ -1,0 +1,17 @@
+---
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  name: traefik-config-values
+  namespace: kube-system
+  lables:
+    managed-by: update-script
+    config-for: traefik
+spec:
+  encryptedData:
+    values.yaml: AgBKPwM67QI7YOYfQ/ccMNPjqnDlpZwREXucwxjVysf2jTtsCaf9Gyt/FgHjhMB4CXtF9Uw0R5i7rrqpQXJ0MHyivDOZnXkLfZ+4nFouljdzwqatWT9R0ObEbH6wn2Ifs8dDM2UrjoAV9Wgot8LakUT+Yeq0t/9cvzJ3Gdhwfp8udqRNHducanR0oSEiPhbfvm+4NOOSBsAS4o2mGx2ybG9uYBIyYxXJQlLbXSBK7HPceEz09PnT+yuv8mYyNSvbTYjQA//Q4LjdokoZjpNWPjTXDYV5EqJrGk8pmxvFmD1WoJVBkPpW/dvYbHJpb2i5avM4KpZKi/nsoTOHpkP3YHOAt77oam9B6y0aV5jGg00t9mpCxeNyWX1iRQg3BB6jZDXfoFlrzbw/rKOgWf7EkNpOH/iASb94kpfzw16JnAt67d8A6qg18hDAEr9R6H0YV8ofeZS0AymaTIziXsAkclkUqkCU4PLc4NQ+2+r4d+ffbP5d4kbLsinRNMPJzZ5br9Xl2dPVjN6ZydQz2Ajm2Oljru+xtCPvxicW4lL9C+NMvnwq8ET3s1jz3Ifmo1pxVMnsUvQlj972pOqMoSmMF2X/EiK2EDXrd5MRWc0ptS39lFindMShWlg26EGe9/E15+sn9D2uAxx6JT7GL0NbCu1HKcGIHet+M5geG1mn4OcU2kkLTJlkTXuFY5oU532WAeXxSjQOeVJxFfPDAE/SxU3Q9PCZh3wI+Ms+8JqvJJiQoL2OxaBOU3L6zRbIAIKBXvnEhtko4sXrd/xYm39PiWvb1HnKXsFJbxkG43XdyqwlvZI60BraapOhVKaNl/P6/nXWBTw9bvgyh+BpzZYy6tOtC+DJHy+SZOThbShq/dmwGWSQ8g5FEi5oBIzS6OJJNjwg6CD78LjyOnI5FtqyAX4yFfx8LDVgs8NDM6aB/68KQJmbndkmrJ3+fWl067TqkBSM70QTGbrjMDgmlhAiDf9Hlpve0b2NOg+LgH80UqRkuoGuYalXX2ZtZTrGK5bxCLichpTSAHgFsoA4dW+ybqL58uUjx760wZ4=
+  template:
+    metadata:
+      creationTimestamp: null
+      name: traefik-config-values
+      namespace: kube-system

@@ -3,21 +3,13 @@ kind: HelmChartConfig
 metadata:
   name: traefik
   namespace: kube-system
+  labels:
+    tier: ingress
+    managed-by: sealed-secret
+    environment: infratructure
 spec:
-  valuesContent: |-
-    dashboard:
-      enabled: true
-    service:
-      spec:
-        loadBalancerIP: 192.168.1.220
-    ports:
-      web:
-        port: 80
-      websecure:
-        port: 443
-        tls:
-          enabled: true
-      traefik:
-        port: 9000
-        expose: true
-        exposedPort: 9000
+  valuesFrom:
+    - secretKeyRef:
+        namespace: kube-system
+        name: traefik-config-values
+        key: values.yaml

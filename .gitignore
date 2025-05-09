@@ -1,5 +1,15 @@
 # Ignore raw secrets
 /secrets/
+## Just in case
+# TLS Certs
+secrets/tls/*.pem
+
+# Ignore private applications
+/applications/private/
+*-private.yaml
+*-private.json
+*-private.md
+
 
 # Other files to ignore
 .DS_Store
