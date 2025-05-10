@@ -20,36 +20,52 @@
 #     - sealed-secrets/cert-manager/letsencrypt-email.yaml
 ################################################################################
 
-# Apply the Cloudflare API token secret
-echo "Applying Cloudflare API token secret..."
-kubectl apply -f sealed-secrets/cert-manager/cloudflare-api-token-secret.yaml
+# Source common functions
+source "$(dirname "$0")/common.sh"
+
+# Set up error handling
+setup_error_handling
+
+# Dependencies
+check_dependency kubectl "Please install kubectl: https://kubernetes.io/docs/tasks/tools/"
+check_dependency base64 "base65 should be available on most systems"
+
+# Ensure cert-manager namespace exists
+ensure_namespace cert-manager
+
+# Apply the CF API token secret
+apply_manifest "sealed-secrets/cert-manager/cloudflare-api-token-secret.yaml" \
+  "Cloudflare API token secret"
 
 # Apply the ClusterIssuer config secret
-echo "Applying ClusterIssuer configuration secret..."
-kubectl apply -f sealed-secrets/cert-manager/letsencrypt-dns01-config.yaml
+apply_manifest "sealed-secrets/cert-manager/letsencrypt-dns01-config.yaml" \
+  "ClusterIssuer configuration secret"
 
-# Wait for secrets to be ready
-echo "Waiting for secrets to be created..."
-sleep 5
+wait_for_secret "cloudflare-api-token-secret" "cert-manager" 10
+wait_for_secret "letsencrypt-dns01-config" "cert-manager" 10
 
 # Get email from secret
-echo "Extracting email from secret..."
-EMAIL=$(kubectl get secret letsencrypt-email -n cert-manager -o jsonpath='{.data.email}' | base64 -d)
+log "Extracting email from secret..."
+EMAIL=$(get_secret_value "letsencrypt-email" "cert-manager" "email")
 
 if [ -z "$EMAIL" ]; then
-    echo "Error: Could not read email from secret"
-    exit 1
+  echo "Error: Could not read email from secret"
+  exit 1
 fi
 
 # Get ClusterIssuer from secret and apply with email substitution
-echo "Applying ClusterIssuer with email: $EMAIL"
-kubectl get secret letsencrypt-dns01-config -n cert-manager -o jsonpath='{.data.cluster-issuer\.yaml}' | \
-  base64 -d | \
-  sed "s/\${LETSENCRYPT_EMAIL}/$EMAIL/" | \
+log "Applying ClusterIssuer with email: $EMAIL"
+get_secret_value "letsencrypt-dns01-config" "cert-manager" "cluster-issuer.yaml" |
+  sed "s/\${LETSENCRYPT_EMAIL}/$EMAIL/" |
   kubectl apply -f -
 
-echo "ClusterIssuer successfully applied!"
+log "ClusterIssuer successfully applied!"
 
 # Verify the ClusterIssuer was created
-echo "Verifying ClusterIssuer creation..."
-kubectl get clusterissuer letsencrypt-prod-dns01 -o wide
+log "Verifying ClusterIssuer creation..."
+if kubectl get clusterissuer letsencrypt-prod-dns01 -o wide; then
+  log "SUCCESS: ClusterIssuer letsencrypt-prod-dns01 is ready"
+else
+  log "WARNING: ClusterIssuer ist not found or not ready"
+  exit 1
+fi

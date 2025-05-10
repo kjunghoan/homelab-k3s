@@ -1,5 +1,4 @@
 #!/bin/bash
-# set -x
 
 ################################################################################
 # This script reads a secret's values and updates any HelmChartConfig when run
@@ -18,12 +17,15 @@
 #   ./update-helmchart-from-secret.sh traefik traefik-config-values kube-system
 ################################################################################
 
+# Source common functions
+source "$(dirname "$0")/common.sh"
+
+# Set up error handling
+setup_error_handling
+
 # Check if arguments are provided
 if [ $# -lt 3 ]; then
-    echo "Usage: $0 helmchart-name secret-name namespace [secret-key]"
-    echo "Example: $0 traefik traefik-config-values kube-system"
-    echo "Secret key defaults to 'values.yaml' if not provided"
-    exit 1
+  usage "<helmchart-name> <secret-name> <namespace> [secret-key]"
 fi
 
 HELMCHART_NAME=$1
@@ -31,25 +33,22 @@ SECRET_NAME=$2
 NAMESPACE=$3
 SECRET_KEY=${4:-values.yaml}
 
-# Escape sequence for secret key of jsonpath:
-ESCAPED_SECRET_KEY=$(echo "${SECRET_KEY}" | sed 's/\./\\./g')
+check_dependency kubectl "Please install kubectl: https://kubernetes.io/docs/tasks/tools/"
+
+wait_for_secret "$SECRET_NAME" "$NAMESPACE" 10
 
 # Extract the values from the secret
 echo "Reading values from secret ${SECRET_NAME}..."
-VALUES=$(kubectl get secret ${SECRET_NAME} -n ${NAMESPACE} -o jsonpath="{.data.${ESCAPED_SECRET_KEY}}" | base64 -d)
-
-# debug: check the value
-# echo "DEBUG: VALUES len: ${#VALUES}"
+VALUES=$(get_secret_value "$SECRET_NAME" "$NAMESPACE" "$SECRET_KEY")
 
 if [ -z "$VALUES" ]; then
-    echo "Error: Could not read values from secret ${SECRET_NAME}"
-    exit 1
+  log "Error: Could not read values from secret ${SECRET_NAME}"
+  exit 1
 fi
 
-# echo "read values from secert"
-
 # Create a temporary HelmChartConfig with the values inline
-cat <<EOF > /tmp/${HELMCHART_NAME}-config.yaml
+TEMP_FILE=$(mktemp)
+cat <<EOF >"$TEMP_FILE"
 apiVersion: helm.cattle.io/v1
 kind: HelmChartConfig
 metadata:
@@ -61,10 +60,10 @@ $(echo "$VALUES" | sed 's/^/    /')
 EOF
 
 # Apply the updated HelmChartConfig
-echo "Applying updated configuration for ${HELMCHART_NAME}..."
-kubectl apply -f /tmp/${HELMCHART_NAME}-config.yaml
+log "Applying updated configuration for ${HELMCHART_NAME}..."
+apply_manifest "$TEMP_FILE" "HelpChartConfig" "${HELMCHART_NAME}"
 
 # Clean up
-rm /tmp/${HELMCHART_NAME}-config.yaml
+rm -f $TEMP_FILE
 
-echo "Successfully updated ${HELMCHART_NAME} configuration from secret ${SECRET_NAME}"
+log "SUCCESS: updated ${HELMCHART_NAME} configuration from secret ${SECRET_NAME}"
