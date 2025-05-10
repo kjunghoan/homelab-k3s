@@ -1,0 +1,20 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: ${SERVICE_NAME}-dashboard-tls
+  namespace: ${NAMESPACE}
+  labels:
+    component: tls-certificate
+    domain: ${BASE_DOMAIN}
+    environment: infrastructure
+    managed-by: cert-manager
+    tier: ingress
+    service: ${SERVICE_NAME}
+spec:
+  secretName: ${SERVICE_NAME}-dashboard-tls
+  issuerRef:
+    name: letsencrypt-prod-dns01
+    kind: ClusterIssuer
+  commonName: ${DOMAIN}
+  dnsNames:
+  - ${DOMAIN}

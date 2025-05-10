@@ -1,0 +1,19 @@
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: ${SERVICE_NAME}-dashboard
+  namespace: ${NAMESPACE}
+spec:
+  entryPoints:
+  - websecure
+  routes:
+  - kind: Rule
+    match: Host(`${SERVICE_NAME}.local`) || Host(`${DOMAIN}`)
+    middlewares:
+    - name: ${SERVICE_NAME}-dashboard-auth
+      namespace: ${NAMESPACE}
+    services:
+    - kind: TraefikService
+      name: api@internal
+  tls:
+    secretName: ${SERVICE_NAME}-dashboard-tls
