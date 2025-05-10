@@ -1,0 +1,16 @@
+---
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  creationTimestamp: null
+  name: letsencrypt-email
+  namespace: cert-manager
+spec:
+  encryptedData:
+    email: AgBGuo110sJyr2Zzm+qzYPJB3U8yErJs+YNmsAyLTRF6RiPD3kSm1CcnvNrmS3W/VwfzCPJq9WZZZSDdVPaoQMWfeMC1Nh48iybF2wtv3N902pIl7xF4f0C/JCqPa0xbZLkIF3lTu46FhXfpyHZVdlQlrEiKJtqfJ0xl5PMjFJ3A8faoQ3g4f8ljOT604geeJ4zLsyF8CNdNAEo5cHnLn0ZKHRlb1nGIeBpmWnsEJR5vx+T9M/hCHBuTyZLbkJt7RtnVTU+39PvlV4I4bApJCnRNmpyIMMHlNhl9IRFuwzskT2oa4aQ0plHIfufRP9SaTOPqu946M8jvVQUCApoYWo3lBOWYIi9wuSu36WLQn0D2UqzWoKt/J5DHUT7D1N89RPj1W+wYUaCLiI0DM0P2Von5+YyFC0NRjvTp+SrDuM6xV3Wu3DPi7ssIRHh2U/cOugJhl1uqy3nJ3Pf3LcxHH7KskiE5GRE47r2qmCcFdNit/AgRzvT/Lr8sEmzpDMAE8qRKaipF+NYYOlUCQ+OPj5HgiLys6nigsVsljRtE8V4acx32cjA05TsNqJHOP2c/c8q+MWm6riUKUEz9dKpVBqnRgPFnSEdAnkCZKBvkMIRDiOHvX81poaTz+pofhefiXZkci4tkkAHWhtCOfkgelA0FESPB6XIMcBBDugL0TIGI++zhr5anwb3VOxUNCf/IRRYIlK6ZcdNhlO8UgHE5fpTpGkxR
+  template:
+    metadata:
+      creationTimestamp: null
+      name: letsencrypt-email
+      namespace: cert-manager
+    type: Opaque

@@ -1,0 +1,15 @@
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: nginx-https
+  namespace: default
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`test.kjunghoan.com`)
+      kind: Rule
+      services:
+        - name: nginx
+          port: 80
+  tls: {}
